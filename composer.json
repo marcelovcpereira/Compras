@@ -1,0 +1,11 @@
+{
+    "require": {
+        "illuminate/database": "*"
+    },
+	"autoload": {
+		"psr-0": { 
+			"Router":"vendor/",
+			"Compras2":""
+		}
+	}
+}
