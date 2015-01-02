@@ -1,11 +1,18 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<meta charset="utf8">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="author" content="Marcelo Pereira">
 		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body>
-		{% block header %}{% endblock %}
+		{% block header %}
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		{% endblock %}
 		{% block body %}{% endblock %}
 		{% block footer %}{% endblock %}
+		{% block js %}
+		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		{% endblock %}
 	</body>
 </html>

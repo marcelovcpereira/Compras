@@ -1,7 +1,8 @@
 {
     "require": {
         "illuminate/database": "*",
-		"twig/twig": "~1.0"
+		"twig/twig": "~1.0",
+		"symfony/http-foundation": "2.5.*"
     },
 	"autoload": {
 		"psr-0": { 
