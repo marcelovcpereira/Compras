@@ -8,8 +8,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Manages requests related to products.
+ *
+ * @author Marcelo Pereira
+ * @since 2015-01-03
+ * @package Compras
+ * @subpackage Controllers
+ */
 class ProductController
 {
+    const INVALID_CONTENT_EXCEPTION_MESSAGE = "No Json or invalid Content delivered.";
+
     public function products()
     {
         foreach (Product::with("Brand")->get() as $product) {
@@ -17,6 +27,12 @@ class ProductController
         }
     }
 
+    /**
+     * Returns a JSON formatted product by barcode
+     *
+     * @param  string(13) $barcode Barcode of requested product
+     * @return string(json) JSON format of the requested product
+     */
     public function getJSONProduct($barcode)
     {
         $product = Product::find($barcode);
@@ -30,80 +46,94 @@ class ProductController
         $response->send();
     }
 
-    public function addJSONProduct($barcode)
+    /**
+     * Adds a Product via JSON embedded object in a POST request
+     *
+     */
+    public function addJSONProduct()
     {
         $request = Request::createFromGlobals();
         $response = new JsonResponse();
-        //Generic Error message
-        $errorContent = json_encode(array("error"=>"No Json Content delivered."));
-        //If the request has a json body
-        if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
-            $content = $request->getContent();
-            if ($content) {
-                $exists = Product::where("barcode", "=", "$barcode")->first();
+        $content = $request->getContent();
+        //If there is content payload
+        if ($content) {
+            try {
+                $product = Product::createFromJson($content);
+                $exists = Product::where("barcode", "=", $product->barcode)->first();
                 if (!$exists) {
-                    $product = Product::createFromJson($content);
-                    if ($product) {
-                        $product->save();
-                        $response->setStatusCode(201);
-                        $response->setContent($product->jsonify());
-                        return $response->send();
-                    } else {
-                        $errorContent = json_encode(array("error"=>"Invalid product format."));
-                    }
+                    $product->save();
+                    $response->setStatusCode(201);
+                    $response->setContent($product->jsonify());
+                    return $response->send();
                 } else {
-                    $errorContent = json_encode(array("error"=>"Couldn't create product. Barcode already exists."));
+                    $errorContent = "Couldn't create product. Barcode already exists.";
                 }
+            } catch (\Exception $e) {
+                $errorContent = "Error creating product: " . $e->getMessage();
             }
+        } else {
+            $errorContent = self::INVALID_CONTENT_EXCEPTION_MESSAGE;
         }
-        $response->setContent($errorContent);
+        $response->setContent(json_encode(array("error" => $errorContent)));
         $response->setStatusCode(400);
         return $response->send();
     }
 
+    /**
+     * Updates an existing product via a JSON embedded POST request.
+     *
+     * @param  string(13) $barcode   Barcode of the product to be changed.
+     * @return string(json)          Updated product.
+     */
     public function updateJSONProduct($barcode)
     {
         $request = Request::createFromGlobals();
         $response = new JsonResponse();
-        //Generic Error message
-        $errorContent = json_encode(array("error"=>"No Json Content delivered."));
-        
-        //If the request has a json body
-        if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
-            $content = $request->getContent();
-            if ($content) {
-                $exists = Product::where("barcode", "=", "$barcode")->first();
-                if ($exists) {
+        $content = $request->getContent();
+        if ($content) {
+            $exists = Product::where("barcode", "=", "$barcode")->first();
+            if ($exists) {
+                try {
                     $exists->updateFromJson($content);
-                    if ($exists) {
-                        $exists->save();
-                        $response->setStatusCode(200);
-                        $response->setContent($exists->jsonify());
-                        return $response->send();
-                    } else {
-                        $errorContent = json_encode(array("error"=>"Invalid product format."));
-                    }
-                } else {
-                    $errorContent = json_encode(array("error"=>"Couldn't update product. Barcode doesn't exist."));
+                    $exists->save();
+                    $response->setStatusCode(200);
+                    $response->setContent($exists->jsonify());
+                    return $response->send();
+                } catch (\Exception $e) {
+                    $errorContent = "Could not update product: " . $e->getMessage();
                 }
+            } else {
+                $errorContent = "Couldn't update product. Barcode doesn't exist.";
             }
+        } else {
+            $errorContent = self::INVALID_CONTENT_EXCEPTION_MESSAGE;
         }
-        $response->setContent($errorContent);
+
+        $response->setContent(json_encode(array("error" => $errorContent)));
         $response->setStatusCode(400);
         return $response->send();
     }
 
+    /**
+     * Deletes a product by barcode.
+     *
+     * @param  string(13) $barcode Barcode of the product to be deleted.
+     * @return string          Status message of the operation.
+     */
     public function deleteProduct($barcode)
     {
         $product = Product::where("barcode", "=", "$barcode");
         $response = new Response();
+        $errorContent = "";
+
         if ($product) {
             $product->delete();
-            $response->setContent("Product with barcode ($barcode) successfully deleted.");
+            $errorContent = "Product with barcode ($barcode) successfully deleted.";
         } else {
             $response->setStatusCode(404);
-            $response->setContent("Error: Product with barcode ($barcode) not found.");
+            $errorContent = "Error: Product with barcode ($barcode) not found.";
         }
+        $response->setContent(json_encode(array("error" => $errorContent)));
         return $response->send();
     }
 }

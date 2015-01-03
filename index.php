@@ -53,13 +53,17 @@ $barcodeRule = array('barcode'=>'numeric');
 //Return a JSON product
 $c->get('/api/v1/products/{barcode}.json', APP_NAME . "\\Controllers\\ProductController@getJSONProduct", $barcodeRule);
 //Insert a JSON product
-$c->post('/api/v1/products/{barcode}.json', APP_NAME . "\\Controllers\\ProductController@addJSONProduct", $barcodeRule);
+$c->post('/api/v1/products/json', APP_NAME . "\\Controllers\\ProductController@addJSONProduct");
 //Delete a product
 $c->delete('/api/v1/products/{barcode}', APP_NAME . "\\Controllers\ProductController@deleteProduct", $barcodeRule);
 //Updates a product using JSON
 $c->put('/api/v1/products/{barcode}.json', APP_NAME . "\\Controllers\ProductController@updateJSONProduct", $barcodeRule);
+//Insert a brand via JSON
+$c->post('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@addJsonBrand");
 
-$c->get('/test/postProduct', APP_NAME . "\\Controllers\\TestController@testPost");
+$c->get('/test/postProduct', APP_NAME . "\\Controllers\\TestController@testPostProduct");
 $c->get('/test/putProduct', APP_NAME . "\\Controllers\\TestController@testPut");
 $c->get('/test/deleteProduct', APP_NAME . "\\Controllers\\TestController@testDelete");
+$c->get('/test/postBrand', APP_NAME . "\\Controllers\\TestController@testPostBrand");
+
 $c->execute();

@@ -10,7 +10,7 @@ Use POST to add new and PUT to change products.</i>
 <ul>
     <li>Return a JSON formatted product: GET at '/api/v1/products/{barcode}.json'</li>
 
-    <li>Insert a JSON formatted product: POST at '/api/v1/products/{barcode}.json'</li>
+    <li>Insert a JSON formatted product: POST at '/api/v1/products/json</li>
 
     <li>Delete a product: DELETE at '/api/v1/products/{barcode}'</li>
 

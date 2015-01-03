@@ -3,7 +3,17 @@ namespace Compras\Controllers;
 
 use Illuminate\Database\Eloquent\Model;
 use \Compras\Models\Brand;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Manage requests related to Brands.
+ *
+ * @author Marcelo Pereira
+ * @since 2015-01-03
+ * @package Compras
+ * @subpackage Controllers
+ */
 class BrandController extends Model
 {
 
@@ -51,5 +61,34 @@ class BrandController extends Model
         } else {
             echo "No brand found with id ($id)<br>";
         }
+    }
+
+    /**
+     * Adds a Brand via JSON embedded object in a POST request
+     *
+     */
+    public function addJsonBrand()
+    {
+        $request = Request::createFromGlobals();
+        $response = new JsonResponse();
+        $content = $request->getContent();
+        $errorContent = "";
+        try {
+            $brand = Brand::createFromJson($content);
+            $exists = Brand::where("name", "=", $brand->name)->first();
+            if (!$exists) {
+                $brand->save();
+                $response->setStatusCode(201);
+                $response->setContent($brand->jsonify());
+                return $response->send();
+            } else {
+                $errorContent = "Couldn't create brand. Name already exists.";
+            }
+        } catch (\Exception $e) {
+            $errorContent = "Error creating brand: " . $e->getMessage();
+        }
+        $response->setContent(json_encode(array("error" => $errorContent)));
+        $response->setStatusCode(400);
+        return $response->send();
     }
 }
