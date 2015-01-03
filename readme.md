@@ -2,7 +2,7 @@
 Groceries management system. It has also a RESTful API to query products via barcode.
 
 <i>I've decided to use PUT as update only actions to keep it's idempotency definition.
-Use POST to add new and PUT to delete products.</i>
+Use POST to add new and PUT to change products.</i>
 
 
 <h4>Currently supported actions:</h4>
