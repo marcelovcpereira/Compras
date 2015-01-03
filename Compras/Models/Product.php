@@ -1,5 +1,5 @@
 <?php
-namespace Compras2\Models;
+namespace Compras\Models;
 
 class Product extends \Illuminate\Database\Eloquent\Model
 {
@@ -8,7 +8,7 @@ class Product extends \Illuminate\Database\Eloquent\Model
 
     public function brand()
     {
-        return $this->belongsTo("\Compras2\Models\Brand");
+        return $this->belongsTo("\Compras\Models\Brand");
     }
 
     public function jsonify()
@@ -31,7 +31,7 @@ class Product extends \Illuminate\Database\Eloquent\Model
             $product->name = $obj->name;
             $product->description = $obj->description;
             $product->brand_id = $obj->brand;
-            $product->barcode = $barcode;
+            $product->barcode = $obj->barcode;
             return $product;
         }
         return null;

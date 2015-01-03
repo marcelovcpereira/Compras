@@ -13,6 +13,6 @@ return array(
     'Illuminate\\Events' => array($vendorDir . '/illuminate/events'),
     'Illuminate\\Database' => array($vendorDir . '/illuminate/database'),
     'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),
-    'Compras2' => array($baseDir . '/'),
+    'Compras' => array($baseDir . '/'),
     'Carbon' => array($vendorDir . '/nesbot/carbon/src'),
 );

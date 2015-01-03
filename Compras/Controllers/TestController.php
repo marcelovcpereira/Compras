@@ -1,6 +1,6 @@
 <?php
 
-namespace Compras2\Controllers;
+namespace Compras\Controllers;
 
 class TestController
 {
@@ -10,6 +10,7 @@ class TestController
         $newProd["name"] = "Biscoito Bono Chocolate 140g";
         $newProd["description"] = "Biscoito recheado sabor chocolate";
         $newProd["brand"] = "13";
+        $newProd["barcode"] = "7891000018750";
         $barcode = "7891000018750";
 
         $json = json_encode($newProd);

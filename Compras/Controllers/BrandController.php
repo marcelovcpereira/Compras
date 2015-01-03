@@ -1,8 +1,8 @@
 <?php
-namespace Compras2\Controllers;
+namespace Compras\Controllers;
 
 use Illuminate\Database\Eloquent\Model;
-use \Compras2\Models\Brand;
+use \Compras\Models\Brand;
 
 class BrandController extends Model
 {

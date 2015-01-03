@@ -1,9 +1,9 @@
 <?php
 
-namespace Compras2\Controllers;
+namespace Compras\Controllers;
 
-use \Compras2\Models\Purchase;
-use \Compras2\Models\Item;
+use \Compras\Models\Purchase;
+use \Compras\Models\Item;
 
 class PurchaseController
 {

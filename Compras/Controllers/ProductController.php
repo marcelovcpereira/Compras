@@ -1,9 +1,9 @@
 <?php
 
-namespace Compras2\Controllers;
+namespace Compras\Controllers;
 
-use Compras2\Models\Product;
-use Compras2\Models\Brand;
+use Compras\Models\Product;
+use Compras\Models\Brand;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;

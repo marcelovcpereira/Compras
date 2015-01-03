@@ -1,6 +1,6 @@
 <?php
 
-namespace Compras2\Models;
+namespace Compras\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class Purchase extends Model
 
     public function items()
     {
-        return $this->belongsToMany('\Compras2\Models\Item', 'purchase_items');
+        return $this->belongsToMany('\Compras\Models\Item', 'purchase_items');
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
  * Defining Application Name
  */
 if (!defined("APP_NAME")) {
-    define("APP_NAME", "Compras2");
+    define("APP_NAME", "Compras");
 }
 
 /**
@@ -30,7 +30,7 @@ $cap->bootEloquent();
 /**
  * Booting TWIG
  */
-$loader = new Twig_Loader_Filesystem(__DIR__ . "/Compras2/Assets/Templates");
+$loader = new Twig_Loader_Filesystem(__DIR__ . "/".APP_NAME."/Assets/Templates");
 $twig = new Twig_Environment($loader, array("debug" => true));
 $twig->addExtension(new Twig_Extension_Debug());
 

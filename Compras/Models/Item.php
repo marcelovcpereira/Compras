@@ -1,5 +1,5 @@
 <?php
-namespace Compras2\Models;
+namespace Compras\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ class Item extends Model
 
     public function product()
     {
-        return $this->belongsTo('\Compras2\Models\Product');
+        return $this->belongsTo('\Compras\Models\Product');
     }
 
     public function purchases()
     {
-        return $this->belongsToMany('\Compras2\Models\Purchase', 'purchase_items');
+        return $this->belongsToMany('\Compras\Models\Purchase', 'purchase_items');
     }
 }
