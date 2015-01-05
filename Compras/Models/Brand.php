@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @package Compras
  * @subpackage Models
  */
-class Brand extends Model
+class Brand extends Model implements \JsonSerializable
 {
     protected $table = "brands";
     public $timestamps = false;
@@ -63,5 +63,14 @@ class Brand extends Model
         $newBrand = array();
         $newBrand["name"] = $this->name;
         return json_encode($newBrand);
+    }
+
+    /**
+     * JsonSerializable function.
+     * @return array Array to be json encoded.
+     */
+    public function jsonSerialize()
+    {
+        return array("name" => $this->name);
     }
 }

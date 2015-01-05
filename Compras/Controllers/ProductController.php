@@ -47,6 +47,19 @@ class ProductController
     }
 
     /**
+     * Returns all products JSON-formatted.
+     * 
+     * @return Response list of products.
+     */
+    public function getAllJson()
+    {
+        $response = new JsonResponse();
+        $products = Product::orderBy("name")->get(array("name","description","barcode"));
+        $response->setContent(json_encode($products));
+        return $response->send();
+    }
+
+    /**
      * Adds a Product via JSON embedded object in a POST request
      *
      */

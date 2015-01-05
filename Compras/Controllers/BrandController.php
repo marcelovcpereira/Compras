@@ -91,4 +91,17 @@ class BrandController extends Model
         $response->setStatusCode(400);
         return $response->send();
     }
+
+    /**
+     * Returns all brands JSON-formatted.
+     * 
+     * @return Response list of brands.
+     */
+    public function getAllJson()
+    {
+        $response = new JsonResponse();
+        $brands = Brand::orderBy("name")->get(array("name"));
+        $response->setContent(json_encode($brands));
+        return $response->send();
+    }
 }
