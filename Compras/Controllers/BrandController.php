@@ -100,8 +100,47 @@ class BrandController extends Model
     public function getAllJson()
     {
         $response = new JsonResponse();
-        $brands = Brand::orderBy("name")->get(array("name"));
+        $brands = Brand::orderBy("name")->get();
         $response->setContent(json_encode($brands));
         return $response->send();
+    }
+
+    /**
+     * Returns a JSON-formatted brand by ID.
+     * 
+     * @return Response containing matched brand.
+     */
+    public function getJsonBrand($id)
+    {
+        $response = new JsonResponse();
+        $brand = Brand::find($id);
+        if ($brand) {
+            $response->setContent(json_encode($brand));
+        } else {
+            $response->setContent(json_encode(array("error"=>"Brand not found: $id.")));
+            $response->setStatusCode(404);
+        }
+        return $response->send();
+    }
+
+    /**
+     * Deletes a brand by id.
+     *
+     * @param  int $id Id of the brand to be deleted.
+     * @return Response Message in case of success, error otherwise.
+     */
+    public function deleteBrand($id)
+    {
+        $response = new JsonResponse();
+        $brand = Brand::find($id);
+        if ($brand) {
+            $name = $brand->name;
+            $brand->delete();
+            $response->setContent(json_encode(array("message"=>"Brand '$name' ($id) deleted.")));
+        } else {
+            $response->setContent(json_encode(array("error"=>"Brand not found: $id.")));
+            $response->setStatusCode(404);
+        }
+        return $response->send();   
     }
 }

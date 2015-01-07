@@ -49,6 +49,8 @@ $c->get('/brands/{id}/products', APP_NAME . "\\Controllers\\BrandController@list
 $c->get('/products', APP_NAME . "\\Controllers\\ProductController@products");
 $c->get('/purchases', APP_NAME . "\\Controllers\\PurchaseController@purchases");
 
+/**API METHODS**/
+
 $barcodeRule = array('barcode'=>'numeric');
 //Return a JSON product
 $c->get('/api/v1/products/{barcode}.json', APP_NAME . "\\Controllers\\ProductController@getJSONProduct", $barcodeRule);
@@ -60,10 +62,18 @@ $c->get('/api/v1/products/json', APP_NAME . "\\Controllers\\ProductController@ge
 $c->delete('/api/v1/products/{barcode}', APP_NAME . "\\Controllers\ProductController@deleteProduct", $barcodeRule);
 //Updates a product using JSON
 $c->put('/api/v1/products/{barcode}.json', APP_NAME . "\\Controllers\ProductController@updateJSONProduct", $barcodeRule);
-//Insert a brand via JSON
+
+//BRANDS
+//Insert JSON
 $c->post('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@addJsonBrand");
-//Returns all brand JSON formatted
+//Returns all JSON
 $c->get('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@getAllJson");
+//Retrieve by ID JSON
+$c->get('/api/v1/brands/json/{id}', APP_NAME . "\\Controllers\\BrandController@getJsonBrand",array("id"=>"numeric"));
+//Delete by id JSON
+$c->delete('/api/v1/brands/json/{id}', APP_NAME . "\\Controllers\\BrandController@deleteBrand",array("id"=>"numeric"));
+
+/**API METHODS**/
 
 //Testing routes
 $c->get('/test/postProduct', APP_NAME . "\\Controllers\\TestController@testPostProduct");

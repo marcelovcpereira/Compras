@@ -62,6 +62,7 @@ class Brand extends Model implements \JsonSerializable
     {
         $newBrand = array();
         $newBrand["name"] = $this->name;
+        $newBrand["id"] = $this->id;
         return json_encode($newBrand);
     }
 
@@ -71,6 +72,6 @@ class Brand extends Model implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return array("name" => $this->name);
+        return array("name" => $this->name, "id" => $this->id);
     }
 }
