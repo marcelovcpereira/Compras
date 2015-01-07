@@ -8,11 +8,23 @@ Use POST to add new and PUT to change products.</i>
 <h4>Currently supported actions:</h4>
 
 <ul>
-    <li>Return a JSON formatted product: GET at '/api/v1/products/{barcode}.json'</li>
+	<li>
+		<ul>Products:
 
-    <li>Insert a JSON formatted product: POST at '/api/v1/products/json</li>
+	    	<li>GET at '/api/v1/products/{barcode}.json' - get a product by id</li>
+	    	<li>POST at '/api/v1/products/json' - add a product</li>
+    		<li>DELETE at '/api/v1/products/{barcode}' - delete a product by barcode</li>
+    		<li>PUT at '/api/v1/products/{barcode}.json' - updates a product</li>
+		</ul>
+	</li>
 
-    <li>Delete a product: DELETE at '/api/v1/products/{barcode}'</li>
+	<li>
+		<ul>Brands:
+			<li>GET at '/api/v1/brands/json' - lists all brands</li>
+			<li>GET at '/api/v1/brands/json/{id}' - get a brand by id</li>
+			<li>POST at '/api/v1/brands/json' - add a brand
+			<li>DELETE at '/api/v1/brands/json/{id}' - delete a brand by id</li>
+		</ul>
+	</li>
 
-    <li>Updates a product using JSON: PUT at '/api/v1/products/{barcode}.json'</li>
 </ul>
