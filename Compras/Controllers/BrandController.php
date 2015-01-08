@@ -92,9 +92,36 @@ class BrandController extends Model
         return $response->send();
     }
 
+    public function updateJsonBrand()
+    {
+        $request = Request::createFromGlobals();
+        $response = new JsonResponse();
+        $content = $request->getContent();
+        $data = json_decode($content);
+        $errorContent = "";
+        if ($data) {
+            $id = $data->id;
+            $name = $data->name;
+            $exists = Brands::find($id);
+            if ($exists) {
+                $exists->name = $name;
+                $exists->save();
+                $response->setContent(json_encode($exists));
+                return $response->send();
+            } else {
+                $errorContent = "Error updating brand: Brand ($id) not found.";
+            }
+        } else {
+            $errorContent = "Error updating brand: Invalid request data.";
+        }
+        $response->setContent(json_encode(array("error" => $errorContent)));
+        $response->setStatusCode(400);
+        return $response->send();
+    }
+
     /**
      * Returns all brands JSON-formatted.
-     * 
+     *
      * @return Response list of brands.
      */
     public function getAllJson()
@@ -107,7 +134,7 @@ class BrandController extends Model
 
     /**
      * Returns a JSON-formatted brand by ID.
-     * 
+     *
      * @return Response containing matched brand.
      */
     public function getJsonBrand($id)
@@ -141,6 +168,6 @@ class BrandController extends Model
             $response->setContent(json_encode(array("error"=>"Brand not found: $id.")));
             $response->setStatusCode(404);
         }
-        return $response->send();   
+        return $response->send();
     }
 }

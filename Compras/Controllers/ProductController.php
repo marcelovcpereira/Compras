@@ -48,7 +48,7 @@ class ProductController
 
     /**
      * Returns all products JSON-formatted.
-     * 
+     *
      * @return Response list of products.
      */
     public function getAllJson()
@@ -93,7 +93,7 @@ class ProductController
     }
 
     /**
-     * Updates an existing product via a JSON embedded POST request.
+     * Updates an existing product via a JSON embedded PUT request.
      *
      * @param  string(13) $barcode   Barcode of the product to be changed.
      * @return string(json)          Updated product.

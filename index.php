@@ -69,9 +69,11 @@ $c->post('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@addJs
 //Returns all JSON
 $c->get('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@getAllJson");
 //Retrieve by ID JSON
-$c->get('/api/v1/brands/json/{id}', APP_NAME . "\\Controllers\\BrandController@getJsonBrand",array("id"=>"numeric"));
+$c->get('/api/v1/brands/json/{id}', APP_NAME . "\\Controllers\\BrandController@getJsonBrand", array("id"=>"numeric"));
+//Updates a brand
+$c->put('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@updateJsonBrand");
 //Delete by id JSON
-$c->delete('/api/v1/brands/json/{id}', APP_NAME . "\\Controllers\\BrandController@deleteBrand",array("id"=>"numeric"));
+$c->delete('/api/v1/brands/json/{id}', APP_NAME . "\\Controllers\\BrandController@deleteBrand", array("id"=>"numeric"));
 
 /**API METHODS**/
 
