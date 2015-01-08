@@ -38,7 +38,7 @@ class ProductController
         $product = Product::find($barcode);
         $response = new JsonResponse();
         if ($product) {
-            $response->setContent($product->jsonify());
+            $response->setContent(json_encode($product));
         } else {
             $response->setStatusCode(404);
             $response->setContent(json_encode(array("error"=>"Product not found.")));
@@ -54,7 +54,7 @@ class ProductController
     public function getAllJson()
     {
         $response = new JsonResponse();
-        $products = Product::orderBy("name")->get(array("name","description","barcode"));
+        $products = Product::with("Brand")->orderBy("name")->get();
         $response->setContent(json_encode($products));
         return $response->send();
     }
@@ -98,12 +98,14 @@ class ProductController
      * @param  string(13) $barcode   Barcode of the product to be changed.
      * @return string(json)          Updated product.
      */
-    public function updateJSONProduct($barcode)
+    public function updateJSONProduct()
     {
         $request = Request::createFromGlobals();
         $response = new JsonResponse();
         $content = $request->getContent();
-        if ($content) {
+        $data = json_decode($content);
+        if ($content && $data) {
+            $barcode = $data->barcode;
             $exists = Product::where("barcode", "=", "$barcode")->first();
             if ($exists) {
                 try {

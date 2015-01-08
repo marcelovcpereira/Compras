@@ -102,7 +102,7 @@ class BrandController extends Model
         if ($data) {
             $id = $data->id;
             $name = $data->name;
-            $exists = Brands::find($id);
+            $exists = Brand::find($id);
             if ($exists) {
                 $exists->name = $name;
                 $exists->save();

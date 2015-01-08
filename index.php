@@ -49,21 +49,23 @@ $c->get('/brands/{id}/products', APP_NAME . "\\Controllers\\BrandController@list
 $c->get('/products', APP_NAME . "\\Controllers\\ProductController@products");
 $c->get('/purchases', APP_NAME . "\\Controllers\\PurchaseController@purchases");
 
-/**API METHODS**/
+/*****************
+****API METHODS***
+******************/
 
-$barcodeRule = array('barcode'=>'numeric');
+//------PRODUCTS
 //Return a JSON product
-$c->get('/api/v1/products/{barcode}.json', APP_NAME . "\\Controllers\\ProductController@getJSONProduct", $barcodeRule);
+$c->get('/api/v1/products/json/{barcode}', APP_NAME . "\\Controllers\\ProductController@getJSONProduct", array('barcode'=>'numeric'));
 //Insert a JSON product
 $c->post('/api/v1/products/json', APP_NAME . "\\Controllers\\ProductController@addJSONProduct");
 //Returns all products JSON formatted
 $c->get('/api/v1/products/json', APP_NAME . "\\Controllers\\ProductController@getAllJson");
 //Delete a product
-$c->delete('/api/v1/products/{barcode}', APP_NAME . "\\Controllers\ProductController@deleteProduct", $barcodeRule);
+$c->delete('/api/v1/products/json/{barcode}', APP_NAME . "\\Controllers\ProductController@deleteProduct", array('barcode'=>'numeric'));
 //Updates a product using JSON
-$c->put('/api/v1/products/{barcode}.json', APP_NAME . "\\Controllers\ProductController@updateJSONProduct", $barcodeRule);
+$c->put('/api/v1/products/json', APP_NAME . "\\Controllers\ProductController@updateJSONProduct");
 
-//BRANDS
+//------BRANDS
 //Insert JSON
 $c->post('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@addJsonBrand");
 //Returns all JSON
@@ -75,7 +77,9 @@ $c->put('/api/v1/brands/json', APP_NAME . "\\Controllers\\BrandController@update
 //Delete by id JSON
 $c->delete('/api/v1/brands/json/{id}', APP_NAME . "\\Controllers\\BrandController@deleteBrand", array("id"=>"numeric"));
 
-/**API METHODS**/
+/*****************
+****API METHODS***
+******************/
 
 //Testing routes
 $c->get('/test/postProduct', APP_NAME . "\\Controllers\\TestController@testPostProduct");

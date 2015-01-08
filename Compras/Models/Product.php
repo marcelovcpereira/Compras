@@ -9,7 +9,7 @@ namespace Compras\Models;
  * @package Compras
  * @subpackage Models
  */
-class Product extends \Illuminate\Database\Eloquent\Model
+class Product extends \Illuminate\Database\Eloquent\Model implements \JsonSerializable
 {
     protected $table = "product";
     public $timestamps = false;
@@ -29,6 +29,17 @@ class Product extends \Illuminate\Database\Eloquent\Model
     public function brand()
     {
         return $this->belongsTo("\Compras\Models\Brand");
+    }
+
+    public function JsonSerialize()
+    {
+        return array(
+            "name" => $this->name,
+            "description" => $this->description,
+            "brand" => $this->brand,
+            "id" => $this->id,
+            "barcode" => $this->barcode
+        );
     }
 
     /**
