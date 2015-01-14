@@ -28,20 +28,25 @@ class ProductController
     }
 
     /**
-     * Returns a JSON formatted product by barcode
+     * Returns a JSON formatted product by barcode or id
      *
      * @param  string(13) $barcode Barcode of requested product
      * @return string(json) JSON format of the requested product
      */
     public function getJSONProduct($barcode)
     {
-        $product = Product::find($barcode);
+        if ( strlen("$barcode") === 13 ) {
+            $product = Product::with("Brand")->where('barcode','=',$barcode)->first();
+        } else {
+            $product = Product::find($barcode);
+        }
+
         $response = new JsonResponse();
         if ($product) {
             $response->setContent(json_encode($product));
         } else {
             $response->setStatusCode(404);
-            $response->setContent(json_encode(array("error"=>"Product not found.")));
+            $response->setContent(json_encode(array("error"=>"Product not found.($barcode)")));
         }
         $response->send();
     }
