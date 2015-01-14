@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  * @package Compras
  * @subpackage Controllers
  */
-class BrandController extends Model
+class BrandController
 {
 
     public function index()
@@ -127,7 +127,7 @@ class BrandController extends Model
     public function getAllJson()
     {
         $response = new JsonResponse();
-        $brands = Brand::orderBy("name")->get();
+        $brands = Brand::with("Image")->orderBy("name")->get();
         $response->setContent(json_encode($brands));
         return $response->send();
     }

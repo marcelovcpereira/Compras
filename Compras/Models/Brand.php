@@ -21,6 +21,11 @@ class Brand extends Model implements \JsonSerializable
         return $this->hasMany('\Compras\Models\Product');
     }
 
+    public function image()
+    {
+        return $this->belongsTo('\Compras\Models\Image');
+    }
+
     /**
      * Creates a Brand instance from a JSON object.
      *
@@ -63,6 +68,7 @@ class Brand extends Model implements \JsonSerializable
         $newBrand = array();
         $newBrand["name"] = $this->name;
         $newBrand["id"] = $this->id;
+        $newBrand["image"] = $this->image;
         return json_encode($newBrand);
     }
 
@@ -72,6 +78,6 @@ class Brand extends Model implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return array("name" => $this->name, "id" => $this->id);
+        return array("name" => $this->name, "id" => $this->id, "image" => $this->image);
     }
 }
