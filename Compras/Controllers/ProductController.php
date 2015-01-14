@@ -110,7 +110,7 @@ class ProductController
         $content = $request->getContent();
         $data = json_decode($content);
         if ($content && $data) {
-            $barcode = $data->barcode;
+            $barcode = isset($data->barcode) ? $data->barcode : null;
             $exists = Product::where("barcode", "=", "$barcode")->first();
             if ($exists) {
                 try {
@@ -123,7 +123,7 @@ class ProductController
                     $errorContent = "Could not update product: " . $e->getMessage();
                 }
             } else {
-                $errorContent = "Couldn't update product. Barcode doesn't exist.";
+                $errorContent = "Couldn't update product. Barcode doesn't exist.(" . $barcode . ")";
             }
         } else {
             $errorContent = self::INVALID_CONTENT_EXCEPTION_MESSAGE;
@@ -149,6 +149,7 @@ class ProductController
         if ($product) {
             $product->delete();
             $errorContent = "Product with barcode ($barcode) successfully deleted.";
+            $response->setContent(json_encode(array("msg" => $errorContent)));
         } else {
             $response->setStatusCode(404);
             $errorContent = "Error: Product with barcode ($barcode) not found.";
